@@ -7,6 +7,10 @@ require('chai')
 contract('Memory Token', (accounts) => {
 
   let token
+
+  before (async () => {
+    token = await MemoryToken.deployed()
+  })
   
   describe("deployment", async() => {
     it('deploys successfully', async () => {
@@ -18,7 +22,16 @@ contract('Memory Token', (accounts) => {
       assert.notEqual(address, null)
       assert.notEqual(address, undefined)
     })
-  })
 
-  
+    it('has a name', async () => {
+      const name = await token.name()
+      assert.equal(name, 'MemoryToken')
+    })
+
+    it('has a symbol', async () => {
+      const symbol = await token.symbol()
+      assert.equal(symbol, 'MEMORY')
+    })
+
+  })
 })
