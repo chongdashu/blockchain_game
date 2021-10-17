@@ -4,11 +4,64 @@ import './App.css';
 import MemoryToken from '../abis/MemoryToken.json'
 import brain from '../brain.png'
 
+const CARD_ARRAY = [
+  {
+    name: 'fries',
+    img: '/images/fries.png'
+  },
+  {
+    name: 'cheeseburger',
+    img: '/images/cheeseburger.png'
+  },
+  {
+    name: 'ice-cream',
+    img: '/images/ice-cream.png'
+  },
+  {
+    name: 'pizza',
+    img: '/images/pizza.png'
+  },
+  {
+    name: 'milkshake',
+    img: '/images/milkshake.png'
+  },
+  {
+    name: 'hotdog',
+    img: '/images/hotdog.png'
+  },
+  {
+    name: 'fries',
+    img: '/images/fries.png'
+  },
+  {
+    name: 'cheeseburger',
+    img: '/images/cheeseburger.png'
+  },
+  {
+    name: 'ice-cream',
+    img: '/images/ice-cream.png'
+  },
+  {
+    name: 'pizza',
+    img: '/images/pizza.png'
+  },
+  {
+    name: 'milkshake',
+    img: '/images/milkshake.png'
+  },
+  {
+    name: 'hotdog',
+    img: '/images/hotdog.png'
+  }
+]
+
 class App extends Component {
 
   async componentWillMount() {
     await this.loadWeb3();
     await this.loadBlockchainData();
+
+    this.setState({cardArray: CARD_ARRAY.sort( () => 0.5 - Math.random()) });
   }
 
   async loadWeb3() {
@@ -57,12 +110,23 @@ class App extends Component {
     }
   }
 
+  chooseImage = (cardId) => {
+    cardId = cardId.toString();
+    return window.location.origin + "/images/blank.png";
+  }
+
   constructor(props) {
     super(props)
     this.state = {
       account: '0x0',
       token: null,
-      totalSupply: 0
+      totalSupply: 0,
+      tokenURIs: [],
+
+      cardArray: [],
+      cardsChosen: [],
+      cardsChosenId: [],
+      cardsWon: []
     }
   }
 
@@ -93,7 +157,19 @@ class App extends Component {
 
                 <div className="grid mb-4" >
 
-                  {/* Code goes here... */}
+                  { this.state.cardArray.map( (card,key) => {
+
+                    return (
+                      <img 
+                        key={key}
+                        src={this.chooseImage(key)}
+                        data-id={key}
+                      />
+                    )
+
+                  })}
+               
+
 
                 </div>
 
