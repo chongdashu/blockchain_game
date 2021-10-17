@@ -106,13 +106,30 @@ class App extends Component {
       }
 
     } else {
-      alert('Smart contract not deployed to detected network.');
+      alert('Smart contract not deployed to detceted network.');
     }
   }
 
   chooseImage = (cardId) => {
     cardId = cardId.toString();
-    return window.location.origin + "/images/blank.png";
+    if (this.state.cardsChosenId.includes(cardId)) {
+      return CARD_ARRAY[cardId].img
+    } else {
+      return window.location.origin + "/images/blank.png";
+    }
+
+  }
+
+  flipCard = async (cardId) => {
+    let alreadyChosen = this.state.cardsChosen.length;
+    this.setState({
+      cardsChosen: [...this.state.cardsChosen, this.state.cardArray[cardId].name],
+      cardsChosenId: [...this.state.cardsChosenId, cardId]
+    })
+
+    // if (alreadyChosen === 1) {
+    //   setTimeout(this.checkForMatch, 100);
+    // }
   }
 
   constructor(props) {
@@ -164,6 +181,12 @@ class App extends Component {
                         key={key}
                         src={this.chooseImage(key)}
                         data-id={key}
+                        onClick={(event) => {
+                          let cardId = event.target.getAttribute("data-id")
+                          if (!this.state.cardsWon.includes(cardId.toString())) {
+                            this.flipCard(cardId);
+                          }
+                        }}
                       />
                     )
 
